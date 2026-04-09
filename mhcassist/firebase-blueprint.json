@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "Patient": {
+      "title": "Patient",
+      "description": "A mental health care patient registered under the MHCA.",
+      "type": "object",
+      "properties": {
+        "mhcaId": { "type": "string", "description": "Unique MHCA identifier (MHCA-timestamp)" },
+        "name": { "type": "string" },
+        "idNumber": { "type": "string" },
+        "familyPhone": { "type": "string" },
+        "admissionTimestamp": { "type": "string", "format": "date-time" },
+        "observationDeadline": { "type": "string", "format": "date-time" },
+        "status": { 
+          "type": "string", 
+          "enum": ["admitted", "observing", "awaiting_review", "discharged"] 
+        },
+        "createdBy": { "type": "string", "description": "UID of the nurse who created the record" },
+        "clinicId": { "type": "string" }
+      },
+      "required": ["mhcaId", "name", "admissionTimestamp", "status", "createdBy"]
+    },
+    "Assessment": {
+      "title": "Assessment",
+      "description": "Independent assessment task for a patient.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "type": { "type": "string", "enum": ["medical", "non_medical"] },
+        "assignedTo": { "type": "string", "description": "User ID of the assessor" },
+        "scheduledTime": { "type": "string", "format": "date-time" },
+        "completed": { "type": "boolean" },
+        "findings": { "type": "string" },
+        "recommendation": { "type": "string" }
+      },
+      "required": ["patientId", "type", "assignedTo", "scheduledTime", "completed"]
+    },
+    "DischargeRequest": {
+      "title": "Discharge Request",
+      "description": "Request for patient discharge requiring review board approval.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "initiatedBy": { "type": "string" },
+        "initiatedAt": { "type": "string", "format": "date-time" },
+        "approvedBy": { "type": "string" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] }
+      },
+      "required": ["patientId", "initiatedBy", "initiatedAt", "status"]
+    },
+    "User": {
+      "title": "User",
+      "description": "App user with specific roles.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["nurse", "clinician", "review_board", "admin"] },
+        "name": { "type": "string" },
+        "clinicId": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    }
+  },
+  "firestore": {
+    "patients/{patientId}": {
+      "schema": "Patient",
+      "description": "Collection of patients"
+    },
+    "assessments/{assessmentId}": {
+      "schema": "Assessment",
+      "description": "Collection of assessments"
+    },
+    "dischargeRequests/{requestId}": {
+      "schema": "DischargeRequest",
+      "description": "Collection of discharge requests"
+    },
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and roles"
+    }
+  }
+}
