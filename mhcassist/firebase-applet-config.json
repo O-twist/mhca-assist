@@ -1,10 +1,10 @@
 {
-  "projectId": "gen-lang-client-0933217878",
-  "appId": "1:2805799765:web:91c0ae92114e660375addc",
-  "apiKey": "AIzaSyAblR8_P5Y2Uw51ykFj-Q72JrZ8Oex_gBc",
-  "authDomain": "gen-lang-client-0933217878.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-84fd9933-02da-41f2-8f60-47b28fcc37d8",
-  "storageBucket": "gen-lang-client-0933217878.firebasestorage.app",
-  "messagingSenderId": "2805799765",
-  "measurementId": ""
+  "projectId": "mhcassistdemo",
+  "appId": "1:551869787850:web:4b88c564cb52ad76538e33",
+  "apiKey": "AIzaSyCGy8n376leLe71VJsZK4abj6YLfquOP1w",
+  "authDomain": "mhcassistdemo.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "mhcassistdemo.firebasestorage.app",
+  "messagingSenderId": "551869787850",
+  "measurementId": "G-M816DXBYWE"
 }
