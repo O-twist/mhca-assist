@@ -50,6 +50,8 @@ service cloud.firestore {
                     request.resource.data.role == resource.data.role; // Role cannot be changed by user
     }
 
+
+
     match /patients/{patientId} {
       allow read: if isAuthenticated();
       allow create: if hasRole('nurse') || hasRole('admin');
