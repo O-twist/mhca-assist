@@ -104,7 +104,7 @@ export const Login = () => {
                 type="email"
                 required
                 className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="nurse@kznhealth.gov.za"
+                placeholder="nurse@healthcentre.org"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
