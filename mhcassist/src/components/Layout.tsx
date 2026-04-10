@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
-import { LogOut, User, ClipboardList, Users, ShieldCheck, Activity } from 'lucide-react';
+import { LogOut, User, ClipboardList, Users, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -23,7 +23,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-white flex flex-col">
         <div className="p-6 flex items-center gap-2 border-b border-slate-800">
-          <Activity className="text-blue-400" />
+          <img src="/logo.png" alt="MHCAssist logo" className="w-6 h-6 object-contain" />
           <span className="text-xl font-bold tracking-tight">MHCAssist</span>
         </div>
         
