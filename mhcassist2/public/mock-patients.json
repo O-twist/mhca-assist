@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mock-1",
+    "mhcaId": "MHCA-1712680000000",
+    "name": "Thabo Mbeki",
+    "idNumber": "8501015000081",
+    "status": "observing",
+    "admissionTimestamp": "2026-04-08T10:00:00Z",
+    "observationDeadline": "2026-04-11T10:00:00Z"
+  },
+  {
+    "id": "mock-2",
+    "mhcaId": "MHCA-1712681000000",
+    "name": "Zanele Sithole",
+    "idNumber": "9205125000082",
+    "status": "awaiting_review",
+    "admissionTimestamp": "2026-04-07T14:00:00Z",
+    "observationDeadline": "2026-04-10T14:00:00Z"
+  },
+  {
+    "id": "mock-3",
+    "mhcaId": "MHCA-1712682000000",
+    "name": "David Gumede",
+    "idNumber": "7811205000083",
+    "status": "draft",
+    "admissionTimestamp": "2026-04-09T08:00:00Z",
+    "observationDeadline": "2026-04-12T08:00:00Z"
+  },
+  {
+    "id": "mock-4",
+    "mhcaId": "MHCA-1712683000000",
+    "name": "Sarah Jenkins",
+    "idNumber": "8804045000084",
+    "status": "observing",
+    "admissionTimestamp": "2026-04-08T16:00:00Z",
+    "observationDeadline": "2026-04-11T16:00:00Z"
+  }
+]

@@ -1,0 +1,107 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    // Collection: users
+    // Fields: uid, email, role (nurse|clinician|review_board|admin), name, clinicId
+    //
+    // Collection: patients
+    // Fields: mhcaId, name, idNumber, familyPhone, admissionTimestamp, observationDeadline, status, createdBy, clinicId
+    //
+    // Collection: assessments
+    // Fields: patientId, type, assignedTo, scheduledTime, completed, findings, recommendation
+    //
+    // Collection: dischargeRequests
+    // Fields: patientId, initiatedBy, initiatedAt, approvedBy, approvedAt, status
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getRole() {
+      return request.auth.token.role;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        getRole() == 'admin' || 
+        request.auth.token.email == 'nzambaoliver@gmail.com' ||
+        request.auth.token.email == 'nzambaoliver6@gmail.com'
+      );
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && (getRole() == role || isAdmin());
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'role']) &&
+             data.role in ['nurse', 'clinician', 'review_board', 'admin'] &&
+             data.uid == request.auth.uid;
+    }
+
+    // Rules
+    
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidUser(request.resource.data);
+      allow update: if isAuthenticated() && isOwner(userId) && 
+                    request.resource.data.role == resource.data.role;
+    }
+
+    match /patients/{patientId} {
+      allow read: if isAuthenticated() && (
+        hasRole('admin') || hasRole('clinician') || hasRole('nurse') ||
+        (hasRole('review_board') && resource.data.status == 'awaiting_review')
+      );
+      allow create: if hasRole('nurse') || hasRole('admin');
+      allow update: if isAuthenticated() && (
+        hasRole('admin') ||
+        (hasRole('clinician')) ||
+        (hasRole('nurse') && resource.data.status == 'draft') ||
+        (hasRole('review_board') && resource.data.status == 'awaiting_review' && request.resource.data.status == 'discharged')
+      ) && (
+        request.resource.data.status == resource.data.status || resource.data.status == 'draft'
+      );
+      allow delete: if hasRole('admin');
+
+      // MHCA-05 Assessments sub-collection
+      match /assessments/{assessmentId} {
+        allow read: if isAuthenticated();
+        allow create, update: if hasRole('clinician') || hasRole('admin');
+        // Enforce max one medical_doctor assessment per patient
+        allow create: if (request.resource.data.assessorRole != 'medical_doctor') || 
+                      !exists(/databases/$(database)/documents/patients/$(patientId)/assessments/medical_doctor_assessment);
+      }
+    }
+
+    match /audit_logs/{log} {
+      allow read: if hasRole('admin');
+      allow write: if false; // Only Cloud Functions
+    }
+
+    match /assessments/{assessmentId} {
+      allow read: if isAuthenticated();
+      allow create: if hasRole('nurse') || hasRole('admin');
+      allow update: if isAuthenticated() && (
+        request.auth.uid == resource.data.assignedTo || 
+        hasRole('admin')
+      );
+    }
+
+    match /dischargeRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if hasRole('nurse') || hasRole('admin') || hasRole('review_board');
+      allow update: if hasRole('review_board') || hasRole('admin');
+    }
+  }
+}

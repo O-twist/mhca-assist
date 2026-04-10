@@ -1,0 +1,5 @@
+{
+  "name": "MHCAssist",
+  "description": "Offline-first digital registry for South Africa’s Mental Health Care Act (MHCA) compliance, featuring patient intake, observation timers, and assessment scheduling.",
+  "requestFramePermissions": ["camera"]
+}
