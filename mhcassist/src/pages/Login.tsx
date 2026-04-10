@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'fire
 import { auth, db } from '../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import { Activity, Mail, Lock, User as UserIcon, Play } from 'lucide-react';
+import { Mail, Lock, User as UserIcon, Play } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Login = () => {
@@ -47,11 +47,13 @@ export const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="bg-slate-900 p-8 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-2xl mb-4 shadow-lg shadow-blue-500/20">
-            <Activity className="text-white" size={32} />
-          </div>
+          <img
+            src="/logo.png"
+            alt="MHCAssist logo"
+            className="w-40 h-16 object-contain mx-auto mb-4"
+          />
           <h1 className="text-2xl font-bold text-white tracking-tight">MHCAssist</h1>
-          <p className="text-slate-400 text-sm mt-1">Mental Health Care Act Compliance Registry</p>
+          <p className="text-slate-400 text-sm mt-1">Where AI meets mental health – precise, predictive, personalised</p>
         </div>
         
         <form onSubmit={handleAuth} className="p-8 space-y-4">
